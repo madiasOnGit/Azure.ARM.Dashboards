@@ -9,7 +9,7 @@
   },
 
   "variables": {
-    "dashboardID": "[concat(uniquestring(resourceGroup().id), 'armDashExamples')]"
+    "dashboardID": "[concat(uniquestring(resourceGroup().id), parameters('dashboardName'))]"
   },
   "resources": [
       {      
@@ -56,7 +56,7 @@
                                 },
                                 {
                                     "name": "PartId",
-                                    "value": "773fc2e3-543e-4259-8399-4855913e286e"
+                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part1')]"
                                 },
                                 {
                                     "name": "PartTitle",
@@ -137,7 +137,7 @@
                                 },
                                 {
                                     "name": "PartId",
-                                    "value": "021d220a-d1aa-4bb1-8f6b-11fb2c57457f"
+                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part2')]"
                                 },
                                 {
                                     "name": "PartTitle",
