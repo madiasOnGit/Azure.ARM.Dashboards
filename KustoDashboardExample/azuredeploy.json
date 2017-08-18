@@ -9,7 +9,7 @@
   },
 
   "variables": {
-    "dashboardID": "[concat(uniquestring(resourceGroup().id), parameters('dashboardName'))]"
+    "dashboardID": "[concat(uniquestring(resourceGroup().id), uniquestring(parameters('dashboardName')))]"
   },
   "resources": [
       {      
