@@ -176,19 +176,6 @@
                                 "type": "ApplicationInsights"
                             }
                         }
-                    },
-                    "2": {
-                        "position": {
-                            "x": 0,
-                            "y": 4,
-                            "rowSpan": 2,
-                            "colSpan": 2
-                        },
-                        "metadata": {
-                            "inputs": [],
-                            "type": "Extension[azure]/HubsExtension/PartType/ArmDataPart",
-                            "settings": {}
-                        }
                     }
                 }
             }
