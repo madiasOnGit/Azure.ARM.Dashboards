@@ -1,4 +1,4 @@
-# Azure Resource Manager Dashboards
+# Azure Resource Manager Dashboards Examples
 
 
 
