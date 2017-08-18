@@ -64,7 +64,7 @@
                                 },
                                 {
                                     "name": "DashboardId",
-                                    "value": "/subscriptions/[subscription().subscriptionId]/resourceGroups/[resourceGroup().Name]/providers/Microsoft.Portal/dashboards/[variables('dashboardID')]"
+                                    "value": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().Name,'/providers/Microsoft.Portal/dashboards/',variables('dashboardID'))]"
                                 },
                                 {
                                     "name": "PartId",
@@ -145,7 +145,7 @@
                                 },
                                 {
                                     "name": "DashboardId",
-                                    "value": "/subscriptions/[subscription().subscriptionId]/resourceGroups/[resourceGroup().Name]/providers/Microsoft.Portal/dashboards/[variables('dashboardID')]"
+                                    "value": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().Name,'/providers/Microsoft.Portal/dashboards/',variables('dashboardID'))]"
                                 },
                                 {
                                     "name": "PartId",
