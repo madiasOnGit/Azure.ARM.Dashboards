@@ -9,7 +9,7 @@
   },
 
   "variables": {
-    "dashboardID": "[concat(uniquestring(resourceGroup().id), uniquestring(parameters('dashboardName')))]"
+    "dashboardID": "[concat(uniquestring(resourceGroup().id), 'dash')]"
   },
   "resources": [
       {      
@@ -56,7 +56,7 @@
                                 },
                                 {
                                     "name": "PartId",
-                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part1')]"
+                                    "value": "[concat(uniquestring(resourceGroup().id), 'part')]"
                                 },
                                 {
                                     "name": "PartTitle",
@@ -137,7 +137,7 @@
                                 },
                                 {
                                     "name": "PartId",
-                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part2')]"
+                                    "value": "[concat(uniquestring(resourceGroup().id), 'part')]"
                                 },
                                 {
                                     "name": "PartTitle",
