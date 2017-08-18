@@ -5,11 +5,23 @@
       "dashboardName": {
           "type": "string",
           "defaultValue":  "My Custom dashboard"
+      },
+      "logAnalyticsWorkspaceName": {
+          "type": "string",
+          "metadata": {
+                        "description": "Name of an existing Log Analytics Workspace"
+          }
+      },
+      "logAnalyticsWorkspaceResourceGroup": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of existing Log Analytics Workspace Resource Group"
+        }
       }
   },
 
   "variables": {
-    "dashboardID": "[concat(uniquestring(resourceGroup().id), 'dash')]"
+    "dashboardID": "[concat(uniquestring(resourceGroup().id), uniquestring(parameters('dashboardName')))]"
   },
   "resources": [
       {      
@@ -38,8 +50,8 @@
                                     "name": "ComponentId",
                                     "value": {
                                         "SubscriptionId": "[subscription().subscriptionId]",
-                                        "ResourceGroup": "mms-weu",
-                                        "Name": "contosows02"
+                                        "ResourceGroup": "[parameters('logAnalyticsWorkspaceResourceGroup')]",
+                                        "Name": "[parameters('logAnalyticsWorkspaceName')]"
                                     }
                                 },
                                 {
@@ -52,11 +64,11 @@
                                 },
                                 {
                                     "name": "DashboardId",
-                                    "value": "/subscriptions/[subscription().subscriptionId]/resourceGroups/dashboards/providers/Microsoft.Portal/dashboards/[variables('dashboardID')]"
+                                    "value": "/subscriptions/[subscription().subscriptionId]/resourceGroups/[resourceGroup().Name]/providers/Microsoft.Portal/dashboards/[variables('dashboardID')]"
                                 },
                                 {
                                     "name": "PartId",
-                                    "value": "[concat(uniquestring(resourceGroup().id), 'part')]"
+                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part1')]"
                                 },
                                 {
                                     "name": "PartTitle",
@@ -64,7 +76,7 @@
                                 },
                                 {
                                     "name": "PartSubTitle",
-                                    "value": "contosows02"
+                                    "value": "[parameters('logAnalyticsWorkspaceName')]"
                                 },
                                 {
                                     "name": "resourceTypeMode",
@@ -75,7 +87,7 @@
                             "settings": {
                                 "content": {
                                     "dashboardPartTitle": "Agents",
-                                    "dashboardPartSubTitle": "contosows02"
+                                    "dashboardPartSubTitle": "[parameters('logAnalyticsWorkspaceName')]"
                                 }
                             },
                             "asset": {
@@ -97,8 +109,8 @@
                                     "name": "ComponentId",
                                     "value": {
                                         "SubscriptionId": "[subscription().subscriptionId]",
-                                        "ResourceGroup": "mms-weu",
-                                        "Name": "contosows02"
+                                        "ResourceGroup": "[parameters('logAnalyticsWorkspaceResourceGroup')]",
+                                        "Name": "[parameters('logAnalyticsWorkspaceName')]"
                                     }
                                 },
                                 {
@@ -133,11 +145,11 @@
                                 },
                                 {
                                     "name": "DashboardId",
-                                    "value": "/subscriptions/[subscription().subscriptionId]/resourceGroups/dashboards/providers/Microsoft.Portal/dashboards/[variables('dashboardID')]"
+                                    "value": "/subscriptions/[subscription().subscriptionId]/resourceGroups/[resourceGroup().Name]/providers/Microsoft.Portal/dashboards/[variables('dashboardID')]"
                                 },
                                 {
                                     "name": "PartId",
-                                    "value": "[concat(uniquestring(resourceGroup().id), 'part')]"
+                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part2')]"
                                 },
                                 {
                                     "name": "PartTitle",
@@ -145,7 +157,7 @@
                                 },
                                 {
                                     "name": "PartSubTitle",
-                                    "value": "contosows02"
+                                    "value": "[parameters('logAnalyticsWorkspaceName')]"
                                 },
                                 {
                                     "name": "resourceTypeMode",
@@ -156,7 +168,7 @@
                             "settings": {
                                 "content": {
                                     "dashboardPartTitle": "Security Events",
-                                    "dashboardPartSubTitle": "contosows02"
+                                    "dashboardPartSubTitle": "[parameters('logAnalyticsWorkspaceName')]"
                                 }
                             },
                             "asset": {
