@@ -36,7 +36,8 @@
         "lenses": {
             "0": {
                 "order": 0,
-                "parts": { 
+                "parts": {
+                    "0": {
                         "position": {
                             "x": 0,
                             "y": 0,
@@ -95,12 +96,12 @@
                             }
                         }
                     },
-                    "0": {
+                    "1": {
                         "position": {
                             "x": 6,
                             "y": 0,
                             "rowSpan": 4,
-                            "colSpan": 16
+                            "colSpan": 6
                         },
                         "metadata": {
                             "inputs": [
