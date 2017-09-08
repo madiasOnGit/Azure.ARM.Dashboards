@@ -1,0 +1,200 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": { 
+      "dashboardName": {
+          "type": "string",
+          "defaultValue":  "My Custom dashboard"
+      },
+      "logAnalyticsWorkspaceName": {
+          "type": "string",
+          "metadata": {
+                        "description": "Name of an existing Log Analytics Workspace"
+          }
+      },
+      "logAnalyticsWorkspaceResourceGroup": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of existing Log Analytics Workspace Resource Group"
+        }
+      }
+  },
+
+  "variables": {
+    "dashboardID": "[concat(uniquestring(resourceGroup().id), uniquestring(parameters('dashboardName')))]"
+  },
+  "resources": [
+      { 
+      "name":  "[variables('dashboardID')]",
+      "type": "Microsoft.Portal/dashboards",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-08-01-preview",
+      "tags": {
+        "hidden-title": "[parameters('dashboardName')]"
+      },
+      "properties": {
+        "lenses": {
+            "0": {
+                "order": 0,
+                "parts": {       
+                        "position": {
+                            "x": 0,
+                            "y": 0,
+                            "rowSpan": 4,
+                            "colSpan": 6
+                        },
+                        "metadata": {
+                            "inputs": [
+                                {
+                                    "name": "ComponentId",
+                                    "value": {
+                                        "SubscriptionId": "[subscription().subscriptionId]",
+                                        "ResourceGroup": "[parameters('logAnalyticsWorkspaceResourceGroup')]",
+                                        "Name": "[parameters('logAnalyticsWorkspaceName')]"
+                                    }
+                                },
+                                {
+                                    "name": "Query",
+                                    "value": "// See which computers sent a heartbeat in the last hour and when they sent it\nHeartbeat\r\n| where TimeGenerated > ago(1h)\r\n| summarize max(TimeGenerated) by Computer\n | project Computer, max_TimeGenerated"
+                                },
+                                {
+                                    "name": "Version",
+                                    "value": "1.0"
+                                },
+                                {
+                                    "name": "DashboardId",
+                                    "value": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().Name,'/providers/Microsoft.Portal/dashboards/',variables('dashboardID'))]"
+                                },
+                                {
+                                    "name": "PartId",
+                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part1')]"
+                                },
+                                {
+                                    "name": "PartTitle",
+                                    "value": "Analytics"
+                                },
+                                {
+                                    "name": "PartSubTitle",
+                                    "value": "[parameters('logAnalyticsWorkspaceName')]"
+                                },
+                                {
+                                    "name": "resourceTypeMode",
+                                    "value": "workspace"
+                                }
+                            ],
+                            "type": "Extension/AppInsightsExtension/PartType/AnalyticsGridPart",
+                            "settings": {
+                                "content": {
+                                    "dashboardPartTitle": "Agents",
+                                    "dashboardPartSubTitle": "[parameters('logAnalyticsWorkspaceName')]"
+                                }
+                            },
+                            "asset": {
+                                "idInputName": "ComponentId",
+                                "type": "ApplicationInsights"
+                            }
+                        }
+                    },
+                    "1": {
+                        "position": {
+                            "x": 6,
+                            "y": 0,
+                            "rowSpan": 4,
+                            "colSpan": 16
+                        },
+                        "metadata": {
+                            "inputs": [
+                                {
+                                    "name": "ComponentId",
+                                    "value": {
+                                        "SubscriptionId": "[subscription().subscriptionId]",
+                                        "ResourceGroup": "[parameters('logAnalyticsWorkspaceResourceGroup')]",
+                                        "Name": "[parameters('logAnalyticsWorkspaceName')]"
+                                    }
+                                },
+                                {
+                                    "name": "Query",
+                                    "value": "// See the stream of data collected in the last 24 hour in intervals of 30 minutes\r\nunion *\r\n| where TimeGenerated > ago(24h) and SourceSystem == \"OpsManager\" and Type == \"SecurityEvent\"\r\n//|take 10\r\n| summarize count() by bin(TimeGenerated, 30m),Computer\r\n| render timechart\n"
+                                },
+                                {
+                                    "name": "Dimensions",
+                                    "value": {
+                                        "xAxis": {
+                                            "name": "TimeGenerated",
+                                            "type": "DateTime"
+                                        },
+                                        "yAxis": [
+                                            {
+                                                "name": "count_",
+                                                "type": "Int64"
+                                            }
+                                        ],
+                                        "splitBy": [
+                                            {
+                                                "name": "Computer",
+                                                "type": "String"
+                                            }
+                                        ],
+                                        "aggregation": "Sum"
+                                    }
+                                },
+                                {
+                                    "name": "Version",
+                                    "value": "1.0"
+                                },
+                                {
+                                    "name": "DashboardId",
+                                    "value": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().Name,'/providers/Microsoft.Portal/dashboards/',variables('dashboardID'))]"
+                                },
+                                {
+                                    "name": "PartId",
+                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part2')]"
+                                },
+                                {
+                                    "name": "PartTitle",
+                                    "value": "Analytics"
+                                },
+                                {
+                                    "name": "PartSubTitle",
+                                    "value": "[parameters('logAnalyticsWorkspaceName')]"
+                                },
+                                {
+                                    "name": "resourceTypeMode",
+                                    "value": "workspace"
+                                }
+                            ],
+                            "type": "Extension/AppInsightsExtension/PartType/AnalyticsLineChartPart",
+                            "settings": {
+                                "content": {
+                                    "dashboardPartTitle": "Security Events",
+                                    "dashboardPartSubTitle": "[parameters('logAnalyticsWorkspaceName')]"
+                                }
+                            },
+                            "asset": {
+                                "idInputName": "ComponentId",
+                                "type": "ApplicationInsights"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "model": {
+                "timeRange": {
+                    "value": {
+                        "relative": {
+                            "duration": 24,
+                            "timeUnit": 1
+                        }
+                    },
+                    "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+                }
+            }
+        }
+    }
+    }      
+  ],
+  "outputs": {
+  }
+}
