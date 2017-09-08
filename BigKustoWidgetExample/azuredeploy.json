@@ -24,7 +24,7 @@
     "dashboardID": "[concat(uniquestring(resourceGroup().id), uniquestring(parameters('dashboardName')))]"
   },
   "resources": [
-      { 
+      {      
       "name":  "[variables('dashboardID')]",
       "type": "Microsoft.Portal/dashboards",
       "location": "[resourceGroup().location]",
