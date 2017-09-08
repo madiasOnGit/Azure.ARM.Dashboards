@@ -34,68 +34,7 @@
       },
       "properties": {
         "lenses": {
-            "0": {
-                "order": 0,
-                "parts": {       
-                        "position": {
-                            "x": 0,
-                            "y": 0,
-                            "rowSpan": 4,
-                            "colSpan": 6
-                        },
-                        "metadata": {
-                            "inputs": [
-                                {
-                                    "name": "ComponentId",
-                                    "value": {
-                                        "SubscriptionId": "[subscription().subscriptionId]",
-                                        "ResourceGroup": "[parameters('logAnalyticsWorkspaceResourceGroup')]",
-                                        "Name": "[parameters('logAnalyticsWorkspaceName')]"
-                                    }
-                                },
-                                {
-                                    "name": "Query",
-                                    "value": "// See which computers sent a heartbeat in the last hour and when they sent it\nHeartbeat\r\n| where TimeGenerated > ago(1h)\r\n| summarize max(TimeGenerated) by Computer\n | project Computer, max_TimeGenerated"
-                                },
-                                {
-                                    "name": "Version",
-                                    "value": "1.0"
-                                },
-                                {
-                                    "name": "DashboardId",
-                                    "value": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().Name,'/providers/Microsoft.Portal/dashboards/',variables('dashboardID'))]"
-                                },
-                                {
-                                    "name": "PartId",
-                                    "value": "[concat(uniquestring(variables('dashboardID')), 'Part1')]"
-                                },
-                                {
-                                    "name": "PartTitle",
-                                    "value": "Analytics"
-                                },
-                                {
-                                    "name": "PartSubTitle",
-                                    "value": "[parameters('logAnalyticsWorkspaceName')]"
-                                },
-                                {
-                                    "name": "resourceTypeMode",
-                                    "value": "workspace"
-                                }
-                            ],
-                            "type": "Extension/AppInsightsExtension/PartType/AnalyticsGridPart",
-                            "settings": {
-                                "content": {
-                                    "dashboardPartTitle": "Agents",
-                                    "dashboardPartSubTitle": "[parameters('logAnalyticsWorkspaceName')]"
-                                }
-                            },
-                            "asset": {
-                                "idInputName": "ComponentId",
-                                "type": "ApplicationInsights"
-                            }
-                        }
-                    },
-                    "1": {
+                    "0": {
                         "position": {
                             "x": 6,
                             "y": 0,
